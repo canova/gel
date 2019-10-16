@@ -20,9 +20,12 @@ impl fmt::Display for StatusError {
 
 impl Error for StatusError {
     fn description(&self) -> &str {
-        "There is no repository in the current directory."
+        match self {
+            Self::NoRepository => "There is no repository in the current directory.",
+        }
     }
 }
+
 
 impl Repository {
     /// TODO: write some docs

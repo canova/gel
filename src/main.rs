@@ -75,6 +75,7 @@ fn run(matches: ArgMatches) -> Result<(), ApplicationError> {
     let repository = Repository::new();
     match matches.subcommand() {
         ("init", _) => panic!("Internal error: We've already executed init command!"),
+        ("log", Some(m)) => repository.log(m)?,
         ("status", Some(m)) => repository.status(m)?,
         ("add", Some(_m)) => unimplemented!(),
         ("commit", Some(_m)) => unimplemented!(),
