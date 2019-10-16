@@ -1,3 +1,4 @@
+use crate::repository::Repository;
 use clap::ArgMatches;
 use log::info;
 use std::error::Error;
@@ -23,9 +24,11 @@ impl Error for StatusError {
     }
 }
 
-/// TODO: write some docs
-pub fn run_status(_matches: &ArgMatches) -> Result<(), StatusError> {
-    info!("Running status sub command");
+impl Repository {
+    /// TODO: write some docs
+    pub fn status(&self, _matches: &ArgMatches) -> Result<(), StatusError> {
+        info!("Running status sub command");
 
-    unimplemented!()
+        unimplemented!()
+    }
 }

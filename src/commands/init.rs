@@ -48,7 +48,7 @@ impl From<io::Error> for InitError {
     }
 }
 
-impl<'a> Repository<'a> {
+impl Repository {
     pub fn init(matches: &ArgMatches) -> Result<(), InitError> {
         info!("Running init sub command");
 

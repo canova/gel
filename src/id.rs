@@ -1,24 +1,24 @@
-use rand::Rng;
-use std::iter;
+use hex;
+use log::info;
 
 /// Id of commits
 /// The size of bytes must be 20!
 #[derive(Debug, PartialEq, Eq, PartialOrd, Hash)]
 pub struct Id {
-    bytes: Box<[u8]>,
+    bytes: [u8; 20],
 }
 
 impl Id {
     pub fn new() -> Self {
-        let mut bytes = Vec::with_capacity(20);
-        let mut rng = rand::thread_rng();
+        info!("Creating a new Id");
+        let mut sha1 = sha1::Sha1::new();
+        sha1.update(b"test!");
 
-        bytes.extend(iter::repeat(rng.gen::<u8>()).take(20));
+        let bytes = sha1.digest().bytes();
+        Id { bytes }
+    }
 
-        println!("{:?}", bytes);
-
-        Id {
-            bytes: bytes.into_boxed_slice(),
-        }
+    pub fn to_string(&self) -> String {
+        hex::encode(self.bytes)
     }
 }
