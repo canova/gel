@@ -7,6 +7,10 @@ use crate::objects::tree::Tree;
 use crate::ApplicationError;
 use commit::Commit;
 
+// Currently we are implementing only "loose objects". There are also "packfiles"
+// but they are much more complex compared to loose objects. We can implement them
+// in the future, but in that early stage, they are not worth implementing at all.
+// We can live without them right now.
 #[derive(Debug)]
 pub enum Object {
     Blob(Blob),

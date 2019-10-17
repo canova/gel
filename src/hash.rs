@@ -27,7 +27,11 @@ impl Hash {
         hex::encode(&self.bytes)
     }
 
-    // TODO: explain why we need this
+    /// This function returns a string tuple of the hash string. The tuple includes
+    /// the first two character of the hash and the rest of the hash. We need this
+    /// because inside the repository objects folder, we want to create a directory
+    /// with the first two chars, and we put the object file with the rest of the hash
+    /// string. This is needed to be able to workaround the operating systems file limits.
     pub fn to_string_parts(&self) -> (String, String) {
         let s = hex::encode(&self.bytes);
         (s[..2].to_string(), s[2..].to_string())

@@ -33,7 +33,7 @@ impl Repository {
     /// Creates a new Repository instance by checking if the current directory
     /// is inside a repository. Panics if current directory is not inside one.
     pub fn new() -> Result<Self, ApplicationError> {
-        let mut directory = env::current_dir().unwrap();
+        let mut directory = env::current_dir()?;
         get_repo_directory(&mut directory)?;
         Ok(Repository { directory })
     }
@@ -51,7 +51,7 @@ impl Repository {
                 Err(Box::new(RepositoryError::FileFoundInsteadOfDir))
             }
         } else if mkdir {
-            fs::create_dir_all(&new_path).unwrap(); // TODO: use question mark op?
+            fs::create_dir_all(&new_path)?;
             Ok(new_path)
         } else {
             Err(Box::new(RepositoryError::DirNotExists))
@@ -78,10 +78,10 @@ impl Repository {
             let mut parent_dir = new_path.clone();
             parent_dir.pop();
             info!("parent dir: {:?}", parent_dir);
-            fs::create_dir_all(parent_dir).unwrap(); // TODO: use question mark op?
-                                                     // We don't need to create this here, we are going to do it after calling this function anyway.
-                                                     // Keeping this here as commented just in case for later changes.
-                                                     // fs::File::create(&new_path).unwrap();
+            fs::create_dir_all(parent_dir)?;
+            // We don't need to create this here, we are going to do it after calling this function anyway.
+            // Keeping this here as commented just in case for later changes.
+            // fs::File::create(&new_path)?;
 
             Ok(new_path)
         } else {
@@ -119,7 +119,7 @@ impl Repository {
             .map(|i| x + i)
             .unwrap();
         info!("y: {:?}", y);
-        let size: usize = FromStr::from_str(&raw[(x + 1)..y]).unwrap();
+        let size: usize = FromStr::from_str(&raw[(x + 1)..y])?;
         info!("obj size: {:?}", size);
 
         if size != raw.len() - y - 1 {

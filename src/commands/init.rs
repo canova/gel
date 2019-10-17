@@ -27,7 +27,7 @@ impl Repository {
             return Err(Box::new(InitError::NoDirectoryArg));
         }
 
-        let mut directory = env::current_dir().unwrap();
+        let mut directory = env::current_dir()?;
         directory.push(&dir_name);
 
         info!("Creating repo directory");
