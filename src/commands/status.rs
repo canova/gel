@@ -1,20 +1,27 @@
 use crate::repository::Repository;
+use crate::ApplicationError;
 use clap::ArgMatches;
 use log::info;
 use std::error::Error;
 use std::fmt;
 
-// TODO: update errors
 #[derive(Debug)]
 pub enum StatusError {
     NoRepository,
 }
 
+impl Repository {
+    /// TODO: write some docs
+    pub fn status(&self, _matches: &ArgMatches) -> Result<(), ApplicationError> {
+        info!("Running status sub command");
+
+        unimplemented!()
+    }
+}
+
 impl fmt::Display for StatusError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::NoRepository => write!(f, "There is no repository in the current directory."),
-        }
+        write!(f, "{}", self.description())
     }
 }
 
@@ -23,15 +30,5 @@ impl Error for StatusError {
         match self {
             Self::NoRepository => "There is no repository in the current directory.",
         }
-    }
-}
-
-
-impl Repository {
-    /// TODO: write some docs
-    pub fn status(&self, _matches: &ArgMatches) -> Result<(), StatusError> {
-        info!("Running status sub command");
-
-        unimplemented!()
     }
 }

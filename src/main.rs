@@ -1,6 +1,8 @@
 mod commands;
-mod id;
+mod hash;
+mod objects;
 mod repository;
+mod user;
 
 use clap::{crate_version, App, Arg, ArgMatches, SubCommand};
 use env_logger;
@@ -27,6 +29,47 @@ fn main() {
                 .arg(
                     Arg::with_name("directory")
                         .help("Directory name to create and initialize gel.")
+                        .takes_value(true)
+                        .required(true),
+                ),
+        )
+        // `hash-object` and `cat-file` is mainly for debug purpose.
+        // Git also has them but no one knows/needs.
+        .subcommand(
+            SubCommand::with_name("hash-object")
+                .about("Compute object hash and optionally creates a blob from a file")
+                .arg(
+                    Arg::with_name("type")
+                        .short("t")
+                        .long("type")
+                        .help("") // todo
+                        .takes_value(true)
+                        .default_value("blob"),
+                )
+                .arg(
+                    Arg::with_name("write").short("w").long("write").help(""), // todo,
+                )
+                .arg(
+                    Arg::with_name("file")
+                        .help("")
+                        .takes_value(true)
+                        .required(true),
+                ),
+        )
+        .subcommand(
+            SubCommand::with_name("cat-file")
+                .about("Provide content of repository objects")
+                .arg(
+                    Arg::with_name("type")
+                        .short("t")
+                        .long("type")
+                        .help("Type of the object")
+                        .takes_value(true)
+                        .default_value("blob"),
+                )
+                .arg(
+                    Arg::with_name("object")
+                        .help("")
                         .takes_value(true)
                         .required(true),
                 ),
@@ -72,14 +115,18 @@ fn run(matches: ArgMatches) -> Result<(), ApplicationError> {
         return Ok(());
     }
 
-    let repository = Repository::new();
+    let repository = Repository::new()?;
     match matches.subcommand() {
         ("init", _) => panic!("Internal error: We've already executed init command!"),
+        // `hash-object` and `cat-file` is mainly for debug purpose.
+        // Git also has them but no one knows/needs.
+        ("hash-object", Some(m)) => repository.hash_object(m)?,
+        ("cat-file", Some(m)) => repository.cat_file(m)?,
         ("log", Some(m)) => repository.log(m)?,
         ("status", Some(m)) => repository.status(m)?,
         ("add", Some(_m)) => unimplemented!(),
         ("commit", Some(_m)) => unimplemented!(),
-        _ => (),
+        _ => unimplemented!(),
     };
     Ok(())
 }
