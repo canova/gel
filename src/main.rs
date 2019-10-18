@@ -1,5 +1,6 @@
 mod commands;
 mod hash;
+mod key_value_list;
 mod objects;
 mod repository;
 mod user;

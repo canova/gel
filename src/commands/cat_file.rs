@@ -12,7 +12,7 @@ impl Repository {
         let _obj_type = matches.value_of("type").unwrap(); // default is blob from clap config
         let hash_string = matches.value_of("object").unwrap(); // clap will throw error if object is not there.
 
-        let hash = Hash::from_hex(hash_string);
+        let hash = Hash::from_hex(hash_string)?;
         let object = self.read_object(&hash)?;
         println!("object: {}", object.serialize()?);
         Ok(())

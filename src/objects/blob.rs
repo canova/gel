@@ -7,7 +7,7 @@ pub struct Blob {
 }
 
 impl Blob {
-    pub fn new(raw: &str) -> Result<Blob, ApplicationError> {
+    pub fn from_raw(raw: &str) -> Result<Blob, ApplicationError> {
         Ok(Blob {
             data: raw.to_string(),
         })

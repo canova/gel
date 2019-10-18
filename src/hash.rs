@@ -1,3 +1,4 @@
+use crate::ApplicationError;
 use hex;
 use log::info;
 
@@ -18,9 +19,12 @@ impl Hash {
         Hash { bytes }
     }
 
-    pub fn from_hex(hash: &str) -> Self {
-        let hex = hex::decode(hash).unwrap().into_boxed_slice();
-        Hash { bytes: hex }
+    pub fn from_hex(hash: &str) -> Result<Self, ApplicationError> {
+        let hex = hex::decode(hash).map(|s| s.into_boxed_slice());
+        match hex.map(|hex| Hash { bytes: hex }) {
+            Ok(h) => Ok(h),
+            Err(e) => Err(Box::new(e)),
+        }
     }
 
     pub fn to_string(&self) -> String {

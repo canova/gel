@@ -6,7 +6,7 @@ pub struct Tree {
 }
 
 impl Tree {
-    pub fn new(_raw: &str) -> Result<Tree, ApplicationError> {
+    pub fn from_raw(_raw: &str) -> Result<Tree, ApplicationError> {
         unimplemented!()
     }
 

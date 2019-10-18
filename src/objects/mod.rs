@@ -22,9 +22,9 @@ pub enum Object {
 impl Object {
     pub fn new(obj_type: &str, raw: &str) -> Result<Object, ApplicationError> {
         match obj_type {
-            "blob" => Ok(Object::Blob(Blob::new(raw)?)),
-            "commit" => Ok(Object::Commit(Commit::new(raw)?)),
-            "tree" => Ok(Object::Tree(Tree::new(raw)?)),
+            "blob" => Ok(Object::Blob(Blob::from_raw(raw)?)),
+            "commit" => Ok(Object::Commit(Commit::from_raw(raw)?)),
+            "tree" => Ok(Object::Tree(Tree::from_raw(raw)?)),
             _ => panic!("Unknown type!"), // TODO: return error
         }
     }
